@@ -16,7 +16,63 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   // Lista de tarefas
-  List _toDoList = [];
+  List _toDoList = [
+    {"title": "Aprender Flutter", "ok": true},
+    {"title": "Aprender Dart", "ok": false},
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Lista de tarefas"),
+        backgroundColor: Colors.blueAccent,
+        centerTitle: true,
+      ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.fromLTRB(17.0, 1.0, 7.0, 1.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                        labelText: "Nova Tarefa",
+                        labelStyle: TextStyle(color: Colors.blueAccent)),
+                  ),
+                ),
+                RaisedButton(
+                  color: Colors.blueAccent,
+                  child: Text("ADD"),
+                  textColor: Colors.white,
+                  onPressed: () {},
+                )
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.only(top: 10.0),
+              itemCount: _toDoList.length,
+              itemBuilder: (context, index) {
+                String itemTitle = _toDoList[index]["title"];
+                bool itemCheck = _toDoList[index]["ok"];
+
+                return CheckboxListTile(
+                  title: Text(itemTitle),
+                  value: itemCheck,
+                  secondary: CircleAvatar(
+                    child: Icon(itemCheck ? Icons.check : Icons.error),
+                  ),
+                );
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
 
   /// Obter aquivo
   Future<File> _getFile() async {
@@ -44,10 +100,5 @@ class _HomeState extends State<Home> {
     } catch (e) {
       return null;
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
